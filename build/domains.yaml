@@ -1,7 +1,0 @@
-default: power_hw_54l15
-build_dir: /home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build
-domains:
-  - name: power_hw_54l15
-    build_dir: /home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/power_hw_54l15
-flash_order:
-  - power_hw_54l15
