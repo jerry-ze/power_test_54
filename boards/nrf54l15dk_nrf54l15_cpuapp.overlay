@@ -1,0 +1,37 @@
+&gpio2 {
+    status = "okay";
+};
+
+
+
+/*for npm 1300 control dts*/
+#include <dt-bindings/regulator/npm1300.h>
+&i2c30_default {
+    group1 {
+        bias-pull-up;
+    };
+};
+
+&i2c30 {
+    status = "okay";
+};
+
+&npm1300_ek_ldo1 {
+    regulator-initial-mode = <NPM1300_LDSW_MODE_LDSW>;
+    enable-gpios = <&npm1300_ek_gpio 0 GPIO_ACTIVE_HIGH>;
+};
+
+&npm1300_ek_ldo2 {
+    regulator-initial-mode = <NPM1300_LDSW_MODE_LDSW>;
+};
+
+&npm1300_ek_pmic {
+    host-int-gpios = <&gpio0 02 0>;
+    pmic-int-pin = <3>;
+};
+
+&npm1300_ek_charger {
+    term-microvolt = <4370000>;
+    current-microamp = <450000>;
+    charging-enable;
+};
