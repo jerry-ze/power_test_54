@@ -1,0 +1,13 @@
+# Target labels
+ power_hw_54l15
+# Source files and their labels
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/CMakeFiles/power_hw_54l15
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/CMakeFiles/power_hw_54l15.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/CMakeFiles/power_hw_54l15-complete.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-build.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-configure.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-download.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-install.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-mkdir.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-patch.rule
+/home/zengzhi/workspace/nordic/hw_test/power_hw_54l15/build/_sysbuild/sysbuild/images/power_hw_54l15-prefix/src/power_hw_54l15-stamp/power_hw_54l15-update.rule

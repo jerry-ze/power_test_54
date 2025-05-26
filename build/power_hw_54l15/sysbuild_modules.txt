@@ -1,0 +1,2 @@
+"nrf":"/home/zengzhi/ncs/v2.9.0/nrf":"/home/zengzhi/ncs/v2.9.0/nrf/sysbuild"
+"mcuboot":"/home/zengzhi/ncs/v2.9.0/bootloader/mcuboot":"/home/zengzhi/ncs/v2.9.0/bootloader/mcuboot/boot/zephyr/sysbuild"
