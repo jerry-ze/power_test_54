@@ -43,6 +43,8 @@ static const struct battery_model battery_model = {
 #include "battery_model.inc"
 };
 
+
+#if 0
 /* Npm sample timer used in active mode. */
 static void npm_timer_handler(struct k_timer *timer);
 K_TIMER_DEFINE(npm_timer, npm_timer_handler, NULL);
@@ -53,13 +55,14 @@ static void npm_timer_handler(struct k_timer *timer)
 	printk("npm_timer timeout!\n");
 	k_timer_stop(&npm_timer);//15分钟时间到,修改充电电流，关闭定时器。
 }
+#endif
 
 static void event_callback(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
 	if (pins & BIT(NPM1300_EVENT_VBUS_DETECTED)) {
 		printk("Vbus connected\n");
 		vbus_connected = true;
-		k_timer_start(&npm_timer, K_SECONDS(NPM1300_CHARGING_START), K_NO_WAIT);//连接上VBUS之后就开起定时器并开始充电
+		//k_timer_start(&npm_timer, K_SECONDS(NPM1300_CHARGING_START), K_NO_WAIT);//连接上VBUS之后就开起定时器并开始充电
 	}
 
 	if (pins & BIT(NPM1300_EVENT_VBUS_REMOVED)) {
@@ -216,16 +219,19 @@ int npm_initial(void)
 	vbus_connected = (val.val1 != 0) || (val.val2 != 0);
 
 	gpio_pin_configure(pm_gpio, NPM1300_GPIO_LOAD_SWITCH_1, GPIO_INPUT);
-	gpio_pin_configure(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDD, GPIO_OUTPUT_HIGH | NPM1300_GPIO_DRIVE_6MA);	//配置pmic的gpio1输出电流为6mA,给气压计供电
-	gpio_pin_configure(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDDIO, GPIO_OUTPUT_HIGH | NPM1300_GPIO_DRIVE_6MA);	//配置pmic的gpio2输出电流为6mA,给气压计供电
-	//gpio_pin_set(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDD, 1); // 输出高
-	//gpio_pin_set(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDD, 0); // 输出低
+
+	gpio_pin_configure(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDD, GPIO_INPUT);// | NPM1300_GPIO_DRIVE_6MA);	//配置pmic的gpio1输出电流为6mA,给气压计供电
+	gpio_pin_configure(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDDIO, GPIO_INPUT);// | NPM1300_GPIO_DRIVE_6MA);	//配置pmic的gpio2输出电流为6mA,给气压计供电
+	//gpio_pin_set(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDD, 0); // 输出高
+	//gpio_pin_set(pm_gpio, NPM1300_GPIO_AP_SENSOR_PWR_VDDIO, 0); // 输出低
 
 	if (!regulator_is_enabled(ldsw2)) {
 		regulator_enable(ldsw2);
 	}
 
-	
+	regulator_disable(ldsw1);
+	regulator_disable(ldsw2);
+
 	printk("PMIC device initial ok\n");
 	return 0;
 }

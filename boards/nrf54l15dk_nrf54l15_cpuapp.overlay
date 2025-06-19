@@ -2,6 +2,25 @@
     status = "okay";
 };
 
+&uicr {
+	nfct-pins-as-gpios;
+};
+
+&rram_controller {
+    /delete-node/ cpuflpr_sram;
+    /delete-node/ cpuflpr_rram;
+};
+
+/* Adjust the cpuapp_sram to include the freed up cpuflpr_sram */
+&cpuapp_sram {
+    reg = <0x20000000 DT_SIZE_K(256)>;
+    ranges = <0x0 0x20000000 0x20040000>;
+};
+
+/* Adjust the cpuapp_rram to include the freed up cpuflpr_rram */
+&cpuapp_rram {
+    reg = <0x0 DT_SIZE_K(1524)>;
+};
 
 
 /*for npm 1300 control dts*/
@@ -18,7 +37,7 @@
 
 &npm1300_ek_ldo1 {
     regulator-initial-mode = <NPM1300_LDSW_MODE_LDSW>;
-    enable-gpios = <&npm1300_ek_gpio 0 GPIO_ACTIVE_HIGH>;
+    enable-gpios = <&npm1300_ek_gpio 0 GPIO_ACTIVE_LOW>;
 };
 
 &npm1300_ek_ldo2 {
@@ -31,7 +50,17 @@
 };
 
 &npm1300_ek_charger {
-    term-microvolt = <4370000>;
+    term-microvolt = <4350000>;
     current-microamp = <450000>;
     charging-enable;
 };
+
+/ {
+	aliases {
+	 /delete-property/ sw3;
+	 /delete-property/ led3;
+	};
+  };
+
+/delete-node/ &button3;
+/delete-node/ &led3;
