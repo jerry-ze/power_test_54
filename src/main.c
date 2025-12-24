@@ -109,22 +109,26 @@ void single_sector_test(const struct device *flash_dev)
 #define PARTITION_NODE DT_NODELABEL(lfs1)
 FS_FSTAB_DECLARE_ENTRY(PARTITION_NODE);
 
+
 int main(void)
 {
 	printk("test start -----\n");
 	k_msleep(500);
-	static struct fs_mount_t *mp = &FS_FSTAB_ENTRY(PARTITION_NODE);
-	
-	uint8_t id[3];
-	const struct device *flash_dev = DEVICE_DT_GET(FLASH_NODE);
 
+	//const struct device *flash_dev = DEVICE_DT_GET(FLASH_NODE);
+	const struct device *flash_dev = DEVICE_DT_GET(DT_ALIAS(spi_flash0));
+	int ret = device_init(flash_dev);
+	if (ret) {
+		printk("flash init failed: %d\n", ret);
+	}
 	if (!device_is_ready(flash_dev)) {
         printk("%s: device not ready.\n", flash_dev->name);
-		return;
+		return 0;
     }
 
 	single_sector_test(flash_dev);
 
+	uint8_t id[3];
     int rc = flash_read_jedec_id(flash_dev, id);
     if (rc < 0) {
         printk("flash_read_jedec_id failed: %d\n", rc);
@@ -132,7 +136,7 @@ int main(void)
 
     printk("JEDEC ID: %02x %02x %02x\n", id[0], id[1], id[2]);
 
-
+	static struct fs_mount_t *mp = &FS_FSTAB_ENTRY(PARTITION_NODE);
 	struct fs_statvfs sbuf;
 	rc = fs_mount(mp);
     if (rc < 0) {
