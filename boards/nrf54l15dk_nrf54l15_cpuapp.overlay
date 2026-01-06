@@ -92,40 +92,31 @@
 			cache-size = <64>;
 			lookahead-size = <32>;
 			block-cycles = <512>;
-			zephyr,deferred-init;
 		};
 	};
 };
 
-/ {
-    aliases {
-        spi-flash0 = &xt25f256b;
-    };
-};
-
-&spi21 {
+&spi00 {
 	status = "okay";
-	pinctrl-0 = <&spi21_default_alt>;
-	pinctrl-1 = <&spi21_sleep_alt>;
+	pinctrl-0 = <&spi00_default_alt>;
+	pinctrl-1 = <&spi00_sleep_alt>;
 	pinctrl-names = "default", "sleep";
 	overrun-character = <0x00>;
 	cs-gpios = <&gpio2 05 GPIO_ACTIVE_LOW>;
 	xt25f256b: xt25f256b@0 {
-		status = "okay";
 		compatible = "jedec,spi-nor";
 		reg = <0>;
 		spi-max-frequency = <DT_FREQ_M(20)>;   /* 按芯片手册设置 */
 		jedec-id = [ 0B 60 19 ];         /* 填 XT25F256B 的 JEDEC ID */
 		size = <0x8000000>;
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
+        partitions {
+            compatible = "fixed-partitions";
+            #address-cells = <1>;
+            #size-cells = <1>;
 
-			lfs1_part: lfs1_part@0 {
-				status = "okay";
-				label = "littlefs_storage";
-				reg = <0x00000000 0x00800000>; /* 分区起始+大小（字节） */
+            lfs1_part: lfs1_part@0 {
+                label = "littlefs_storage";
+                reg = <0x00000000 0x00800000>; /* 分区起始+大小（字节） */
             };
         };
     };
