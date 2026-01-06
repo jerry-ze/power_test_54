@@ -1,6 +1,3 @@
-
-
-
 &gpio2 {
     status = "okay";
 };
@@ -67,57 +64,3 @@
 
 /delete-node/ &button3;
 /delete-node/ &led3;
-
-&mx25r64 {
-    status = "disabled";
-};
-
-/ {
-    chosen {
-        nordic,pm-ext-flash = &xt25f256b; /* 或 &mx25r64 / &spiflash */
-    };
-};
-
-/ {
-	fstab {
-		compatible = "zephyr,fstab";
-			lfs1: lfs1 {
-			compatible = "zephyr,fstab,littlefs";
-			mount-point = "/lfs1";          /* 挂载点 */
-			partition = <&lfs1_part>;  /* 或 <&lfs1_part> */
-			/*automount;                     开机自动挂载 */
-
-			read-size = <16>;
-			prog-size = <16>;
-			cache-size = <64>;
-			lookahead-size = <32>;
-			block-cycles = <512>;
-		};
-	};
-};
-
-&spi00 {
-	status = "okay";
-	pinctrl-0 = <&spi00_default_alt>;
-	pinctrl-1 = <&spi00_sleep_alt>;
-	pinctrl-names = "default", "sleep";
-	overrun-character = <0x00>;
-	cs-gpios = <&gpio2 05 GPIO_ACTIVE_LOW>;
-	xt25f256b: xt25f256b@0 {
-		compatible = "jedec,spi-nor";
-		reg = <0>;
-		spi-max-frequency = <DT_FREQ_M(20)>;   /* 按芯片手册设置 */
-		jedec-id = [ 0B 60 19 ];         /* 填 XT25F256B 的 JEDEC ID */
-		size = <0x8000000>;
-        partitions {
-            compatible = "fixed-partitions";
-            #address-cells = <1>;
-            #size-cells = <1>;
-
-            lfs1_part: lfs1_part@0 {
-                label = "littlefs_storage";
-                reg = <0x00000000 0x00800000>; /* 分区起始+大小（字节） */
-            };
-        };
-    };
-};
